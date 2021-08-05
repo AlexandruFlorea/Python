@@ -1,66 +1,45 @@
-#
-# # numero 1 - sum function var 1
-# def sum_function(*numbers, **others):
-#     result = 0
-#     for number in numbers:
-#         try:
-#             int(number)
-#             result += number
-#             continue
-#         except ValueError:
-#             pass
-#
-#     return result
-
-
-# print(sum_function(2, 'adf', 4, 3.17, fire=3))
-
-# numero 1 - sum function var 2
-def sum_function(*args, **others):
+# numero 1 - recursive sum function for undefined list of elements
+def sum_function(*args, **kwargs):
     result = 0
-    for item in args:
-        if isinstance(item, int) or isinstance(item, float):
+    list_args = list(args) + list(kwargs.values())
+
+    for item in list_args:
+        if type(item) in [int, float]:
             result += item
-        elif isinstance(item, list):
-            for list_item in item:
-                result += list_item
+        elif type(item) in [list, tuple, set]:
+            result += sum_function(*item)
+
     return result
 
 
-print(sum_function(2, 'adf', 4, 3.17, [1, 2, 5.13], fire=3))
+print(sum_function(2, 'adf', 4, 3.17, [1, 2, [2, (2, 1), {2, "asjhkad", 1}, 4.3], 5.13], fire=3, earth=[5, 2]))
 
 
 #########################################################################
-# # numero 2 - recursive function
-# def complex_sum_function(n):
-#     number_list = list(range(n+1))
-#     total_sum = 0
-#     even_num_sum = 0
-#     odd_num_sum = 0
-#
-#     for num in number_list:
-#         total_sum += num
-#         if num % 2 == 0:
-#             even_num_sum += num
-#         else:
-#             odd_num_sum += num
-#
-#     return f"Sum of all numbers is {total_sum}\n" \
-#            f"Sum of even numbers is {even_num_sum}\n"\
-#            f"Sum of odd numbers is {odd_num_sum}"
-#
-#
-# print(complex_sum_function(5))
+# numero 2 - recursive function
+def complex_sum_function(n):
+    if n == 0:
+        return 0, 0, 0
+
+    total_sum, even_sum, odd_sum = complex_sum_function(n - 1)
+    total_sum += n
+    if n % 2 == 0:
+        even_sum += n
+    else:
+        odd_sum += n
+
+    return total_sum, even_sum, odd_sum
+
+
+t, e, o = complex_sum_function(5)
+print(t, e, o)
 
 
 ########################################################################
-# # numero 3 - integer check
-# def is_integer():
-#     user_input = float(input('Enter the number you want to check: '))
-#     if user_input % 2 == 0:
-#         print(f"{user_input: .0f}")
-#     else:
-#         print(0)
-#
-#
-# is_integer()
+# numero 3 - integer check
+def is_integer():
+    user_input = float(input('Enter the number you want to check: '))
+    if user_input % 2 == 0:
+        print(f"{user_input: .0f}")
+    else:
+        print(0)
