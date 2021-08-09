@@ -2,6 +2,7 @@ from math import gcd
 
 
 class Fraction:
+
     def __init__(self, top, bottom):
         self.num = top
         self.denom = bottom
@@ -30,14 +31,23 @@ class Fraction:
 
         return Fraction(new_num // common_divisor, new_denom // common_divisor)
 
-    def divide(self, other):
+    def __truediv__(self, other):
+        new_num = self.num * other.denom
+        new_denom = self.denom * other.num
+
+        return "{:.2f}".format(new_num / new_denom)
+
+    def __floordiv__(self, other):
         new_num = self.num * other.denom
         new_denom = self.denom * other.num
         common_divisor = gcd(new_num, new_denom)
 
         return Fraction(new_num // common_divisor, new_denom // common_divisor)
 
-    def inverse(self):
+    # def inverse(self):
+    #     return f"{self.denom}/{self.num}"
+
+    def __invert__(self):
         return f"{self.denom}/{self.num}"
 
 
@@ -48,5 +58,6 @@ my_f3 = Fraction(1, 2)
 print(my_f1 + my_f2 + my_f3)
 print(my_f1 - my_f2 + my_f3)
 print(my_f1 * my_f2 + my_f3)
-print(my_f1.divide(my_f2))
-print(my_f3.inverse())
+print(my_f1 / my_f2)
+print(my_f1 // my_f2)
+print(my_f3.__invert__())
