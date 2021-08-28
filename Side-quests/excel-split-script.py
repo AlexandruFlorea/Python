@@ -20,7 +20,7 @@ try:
 except OSError as error:
     print(error)
 finally:
-    pass
+    print('Moving on')
 
 # Removing duplicate rows
 print("Removing duplicate rows")
@@ -45,12 +45,13 @@ Files to create: {files_to_create}
 Engaging Hyperdrive Core
 Approaching Mass Relay""")
 
-def color_positive(v):
-    if v in ["Passed", "Compliant"]:
+# Conditional formatting
+def color_coding(cell_value):
+    if cell_value in ["Passed", "Compliant"]:
         return f"background-color: lightgreen;"
-    elif v in ["Failed   ( No Response )", "Non-compliant"]:
+    elif cell_value in ["Failed   ( No Response )", "Non-compliant"]:
         return f"background-color: #ff7373"
-    elif v == "Warning":
+    elif cell_value == "Warning":
         return f"background-color: orange"
     else:
         return None
@@ -59,7 +60,7 @@ def color_positive(v):
 # Generating files
 for unique_value in unique_values:
     df_output = df[df[column_name].replace(replace_symbols, 'Blank').str.contains(unique_value)]
-    df_output = df_output.style.applymap(color_positive)
+    df_output = df_output.style.applymap(color_coding)
     output_path = os.path.join(dir_path, unique_value + '_Audit report_' + 'Aug 2021' + '.xlsx')
     df_output.to_excel(output_path, sheet_name='Data', index=False)
     completed += 1
